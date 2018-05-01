@@ -1,3 +1,7 @@
 <resources>
     <string name="app_name">alarmClock</string>
+    <string name="new_clock_activity_plain_text_new_clock_time">Enter alarm clock time</string>
+    <string name="new_clock_activity_plain_text_new_clock_name">Enter alarm clock name</string>
+    <string name="new_clock_activity_plain_text_new_clock_name_hint">Enter alarm clock name here</string>
+    <string name="new_clock_activity_button_ok">Done</string>
 </resources>

@@ -10,13 +10,16 @@
         android:supportsRtl="true"
         android:theme="@style/AppTheme">
         <service android:name=".service.AlarmService" />
-        <activity android:name=".AllClockActivity">
+        <activity android:name=".activity.AllClockActivity">
 
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
 
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
+        </activity>
+        <activity android:name=".activity.NewClockActivity">
+
         </activity>
     </application>
 
