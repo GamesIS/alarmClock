@@ -23,6 +23,8 @@ public class AllClockActivity extends AppCompatActivity {
 
     private AlarmReceiver alarmReceiver;
 
+    static boolean isActive = false;
+
     //private File internalStorageDir = getFilesDir();
 
     final static int RQS_1 = 1;
@@ -70,6 +72,18 @@ public class AllClockActivity extends AppCompatActivity {
 
     }
 
+    @Override
+    protected void onStart() {
+        super.onStart();
+        isActive = true;
+    }
+
+    @Override
+    protected void onStop() {
+        super.onStop();
+        isActive = false;
+    }
+
 
     /*public void startRepeatingTimer(*//*View view*//*){
         Context context= this.getApplicationContext();
@@ -103,6 +117,7 @@ public class AllClockActivity extends AppCompatActivity {
         //(Intent) - это механизм для описания одной операции - выбрать фотографию, отправить письмо, сделать звонок, запустить браузер...
         Intent intent = new Intent("ilku.ru.alarmclock.receive.ALARM");
         pendingIntent = PendingIntent.getBroadcast(this, 0, intent, 0);
+        PendingIntent p2 = PendingIntent.getBroadcast(this, 1, intent, 0);
 
 
         Calendar calendar = Calendar.getInstance();
@@ -112,17 +127,7 @@ public class AllClockActivity extends AppCompatActivity {
 
         alarmMgr.setRepeating(AlarmManager.RTC_WAKEUP, calendar.getTimeInMillis(),
                 repeatingTime, pendingIntent);
+        /*alarmMgr.setRepeating(AlarmManager.RTC_WAKEUP, calendar.getTimeInMillis(),
+                repeatingTime+10000, p2);*/
     }
-
-    public void cancelAlarm()
-    {
-        alarmMgr = (AlarmManager)getSystemService(Context.ALARM_SERVICE);
-        //(Intent) - это механизм для описания одной операции - выбрать фотографию, отправить письмо, сделать звонок, запустить браузер...
-        Intent intent = new Intent("ilku.ru.alarmclock.receive.ALARM");
-        pendingIntent = PendingIntent.getBroadcast(this, 0, intent, 0);
-
-        alarmMgr.cancel(pendingIntent);//Отменяем будильник, связанный с интентом данного класса
-    }
-
-
 }

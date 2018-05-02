@@ -4,6 +4,7 @@
 
     <uses-permission android:name="android.permission.VIBRATE" />
     <uses-permission android:name="android.permission.WAKE_LOCK" />
+    <uses-permission android:name="android.permission.SYSTEM_ALERT_WINDOW" />
 
     <application
         android:allowBackup="true"
@@ -17,11 +18,11 @@
             android:process=":alarmService" /> <!-- android:exported="true" android:process=":alarmService" android:stopWithTask="false" -->
         <!-- <receiver android:name=".receive.AlarmReceiver" android:process=":remote"/> -->
         <!-- <receiver android:process=":remote" android:name=".receive.AlarmReceiver"></receiver> -->
-        <receiver android:name=".receive.AlarmReceiver">
+        <!--<receiver android:name=".receive.AlarmReceiver">
             <intent-filter>
                 <action android:name="ilku.ru.alarmclock.receive.ALARM" />
             </intent-filter>
-        </receiver>
+        </receiver>-->
 
         <activity android:name=".activity.AllClockActivity">
             <intent-filter>
@@ -30,8 +31,17 @@
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
-        <activity android:name=".activity.NewClockActivity"></activity>
-        <activity android:name=".activity.AlarmClockActivity"></activity>
+        <activity android:name=".activity.NewClockActivity">
+
+        </activity>
+        <!--<activity android:name=".activity.AlarmClockActivity"
+            android:theme="@android:style/Theme.Dialog"
+            android:excludeFromRecents="true">
+
+        </activity>-->
+        <activity android:name=".activity.AlarmClockActivity">
+
+        </activity>
     </application>
 
 </manifest>

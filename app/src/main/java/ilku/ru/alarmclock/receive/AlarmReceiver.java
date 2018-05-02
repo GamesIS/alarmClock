@@ -5,19 +5,10 @@ import android.app.PendingIntent;
 import android.content.BroadcastReceiver;
 import android.content.Context;
 import android.content.Intent;
-import android.os.Bundle;
-import android.os.PowerManager;
-import android.os.Vibrator;
-import android.util.Log;
-import android.widget.Toast;
 
-import java.text.Format;
-import java.text.SimpleDateFormat;
 import java.util.Calendar;
 
 import ilku.ru.alarmclock.activity.AlarmClockActivity;
-import ilku.ru.alarmclock.activity.AllClockActivity;
-import ilku.ru.alarmclock.activity.NewClockActivity;
 
 public class AlarmReceiver extends BroadcastReceiver {
 
@@ -33,24 +24,21 @@ public class AlarmReceiver extends BroadcastReceiver {
         Log.d(TAG, "action = " + intent.getAction());
         Log.d(TAG, "extra = " + intent.getStringExtra("extra"));
         System.out.println("Test");*/
-        System.out.println("action = " + intent.getAction() + " " + "extra = " + intent.getStringExtra("extra"));
-        PowerManager pm=(PowerManager) context.getSystemService(Context.POWER_SERVICE);
-        PowerManager.WakeLock wl = pm.newWakeLock(PowerManager.SCREEN_BRIGHT_WAKE_LOCK | PowerManager.ACQUIRE_CAUSES_WAKEUP, "tag");
-        //Осуществляем блокировку
-        wl.acquire();//Это нужно чтобы не погас экран
+        System.out.println("action = " + intent.getAction() + " " + "extra = " +intent.getDataString());
+        //System.out.println("action = " + intent.getAction() + " " + "extra = " + intent.getStringExtra("extra"));
 
-        Intent intentone = new Intent(context.getApplicationContext(), AlarmClockActivity.class);
-        intentone.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TASK | Intent.FLAG_ACTIVITY_CLEAR_TOP | Intent.FLAG_ACTIVITY_NEW_TASK);
-        context.startActivity(intentone);
+        if(!AlarmClockActivity.isActive){
+            Intent intentone = new Intent(context.getApplicationContext(), AlarmClockActivity.class);//Старт активти
 
-        Toast.makeText(context, "Test", Toast.LENGTH_LONG).show();
+            intentone.addFlags(/*Intent.FLAG_ACTIVITY_CLEAR_TASK | Intent.FLAG_ACTIVITY_CLEAR_TOP | */Intent.FLAG_ACTIVITY_NEW_TASK);
+            context.startActivity(intentone);
+        }
 
-        Vibrator v;
-        v=(Vibrator)context.getSystemService(Context.VIBRATOR_SERVICE);
-        v.vibrate(1000);
 
-        //Разблокируем поток.
-        wl.release();
+
+
+
+
 
     }
 

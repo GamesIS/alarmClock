@@ -129,7 +129,7 @@ public class AlarmService extends Service {
     public void onDestroy() {
         System.out.println("Destroy AlarmService");
         super.onDestroy();
-        alarmReceiver.cancelAlarm(this);
+        //alarmReceiver.cancelAlarm(this);
         if(alarmReceiver!=null)
         {
             unregisterReceiver(alarmReceiver);
