@@ -98,31 +98,17 @@ public class AlarmService extends Service {
         System.out.println("Create AlarmService");
         super.onCreate();
 
-        IntentFilter intentFilter = new IntentFilter();
+        IntentFilter intentFilter = new IntentFilter();//Регистрация AlarmReceiver
         intentFilter.addAction("ilku.ru.alarmclock.receive.ALARM");
-        //intentFilter.addAction("android.intent.action.SCREEN_ON");
-        //intentFilter.addAction("android.intent.action.SCREEN_OFF");
-
-        // Set broadcast receiver priority.
         intentFilter.setPriority(100);
         alarmReceiver = new AlarmReceiver();
         registerReceiver(alarmReceiver, intentFilter);
-        //alarmReceiver.startRepeatingTimer(this);
-        Toast.makeText(this,"onCreate" + i++, Toast.LENGTH_SHORT).show();
     }
 
     @Override
     public int onStartCommand(@Nullable Intent intent, int flags, int startId) {
         System.out.println("StartCommand AlarmService");
-
-        //return super.onStartCommand(intent, flags, startId);
-        return START_STICKY;
-        //return START_REDELIVER_INTENT;
-        /*
-        сервис будет перезапущен после того, как был убит системой. Кроме этого, сервис снова получит все вызовы startService, которые не были завершены методом stopSelf(startId).
-        */
-        //return START_NOT_STICKY;//Сервис будет не перезапущен после того как был убит системой
-        //return START_STICKY;//Сервис будет перезапущен после того как был убит системой
+        return START_STICKY;//Сервис будет перезапущен после того как был убит системой
     }
 
     @Override

@@ -26,6 +26,8 @@ public class AlarmClockActivity extends Activity {
     private PendingIntent pendingIntent;
     private AlarmThread alarmThread;
 
+
+
     private Vibrator vibrator;
 
     public static boolean isActive = false;
@@ -33,7 +35,10 @@ public class AlarmClockActivity extends Activity {
     private MediaPlayer mMediaPlayer;
 
     private final static int MAX_VOLUME = 100;
-    private final static int CURRENT_VOLUME = 10;
+    private final static int VOLUME_STEP = 15;//Шаг увеличения
+
+    private int CURRENT_VOLUME = 10;
+    private boolean soundIncrease = false;//Нарастающий звук
 
 
     @Override
@@ -119,10 +124,7 @@ public class AlarmClockActivity extends Activity {
     private void playSound(Context context, Uri alert) {
         mMediaPlayer = new MediaPlayer();
         mMediaPlayer.setLooping(true);//
-        //int currentVolume = 100;
-        final float volume = (float) (1 - (Math.log(MAX_VOLUME - CURRENT_VOLUME) / Math.log(MAX_VOLUME)));
-
-        mMediaPlayer.setVolume(volume, volume);
+        setVolume(CURRENT_VOLUME);
         try {
             mMediaPlayer.setDataSource(context, alert);
             final AudioManager audioManager = (AudioManager) context
@@ -159,6 +161,11 @@ public class AlarmClockActivity extends Activity {
             for(int i = 0; i < 20; i++){
                 if(!isInterrupted()){
                     vibrator.vibrate(pattern, -1);
+                    if (soundIncrease && CURRENT_VOLUME < MAX_VOLUME){
+                        CURRENT_VOLUME += VOLUME_STEP;
+                        if(CURRENT_VOLUME > MAX_VOLUME) CURRENT_VOLUME = MAX_VOLUME;
+                    }
+                    setVolume(CURRENT_VOLUME);
                     try {
                         Thread.sleep(3000);
                     } catch (InterruptedException e) {
@@ -174,5 +181,9 @@ public class AlarmClockActivity extends Activity {
             }
             finish();
         }
+    }
+    private void setVolume(int volume){
+        float vol = (float) (1 - (Math.log(MAX_VOLUME - volume) / Math.log(MAX_VOLUME)));
+        mMediaPlayer.setVolume(vol, vol);
     }
 }
