@@ -19,44 +19,27 @@ import ilku.ru.alarmclock.activity.AllClockActivity;
 
 public class AlarmReceiver extends BroadcastReceiver {
 
-    public static final String ACTION_ALARM = "ilku.ru.alarmclock.receive.ALARM";
+    public static final String TAG = "AlarmReceiver";
+
+    private AlarmManager alarmMgr;
+    private PendingIntent pendingIntent;
 
     @Override
     public void onReceive(Context context, Intent intent) {
-        //Log.d("TEST2", "TEST2");
-        System.out.println("Test");
+   /*     //Log.d("TEST2", "TEST2");
+        Log.d(TAG, "onReceive");
+        Log.d(TAG, "action = " + intent.getAction());
+        Log.d(TAG, "extra = " + intent.getStringExtra("extra"));
+        System.out.println("Test");*/
+        System.out.println("action = " + intent.getAction() + " " + "extra = " + intent.getStringExtra("extra"));
         PowerManager pm=(PowerManager) context.getSystemService(Context.POWER_SERVICE);
         PowerManager.WakeLock wl = pm.newWakeLock(PowerManager.SCREEN_BRIGHT_WAKE_LOCK | PowerManager.ACQUIRE_CAUSES_WAKEUP, "tag");
         //Осуществляем блокировку
         wl.acquire();//Это нужно чтобы не погас экран
 
-        /*//Здесь можно делать обработку.
-        Bundle extras= intent.getExtras();
-        StringBuilder msgStr=new StringBuilder();
-
-        if(extras!=null && extras.getBoolean(ONE_TIME, Boolean.FALSE)){
-        //проверяем параметр ONE_TIME, если это одиночный будильник,
-        //выводим соответствующее сообщение.
-            msgStr.append("Одноразовый будильник: ");
-        }
-        *//*Format formatter=new SimpleDateFormat("hh:mm:ss a");
-
-        String d
-
-        msgStr.append(formatter.format(newDate()));*/
-
-        /*this.getWindow().setFlags(WindowManager.LayoutParams.FLAG_SHOW_WHEN_LOCKED | WindowManager.LayoutParams.FLAG_TURN_SCREEN_ON,
-                WindowManager.LayoutParams.FLAG_SHOW_WHEN_LOCKED | WindowManager.LayoutParams.FLAG_TURN_SCREEN_ON | WindowManager.LayoutParams.FLAG_DISMISS_KEYGUARD);*/
-
         Intent intentone = new Intent(context.getApplicationContext(), AllClockActivity.class);
         intentone.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TASK | Intent.FLAG_ACTIVITY_CLEAR_TOP | Intent.FLAG_ACTIVITY_NEW_TASK);
         context.startActivity(intentone);
-
-        /*Intent i = new Intent();
-        i.setClassName("ilku.ru.alarmclock.activity", "ilku.ru.alarmclock.activity.AllClockActivity");
-        i.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
-        context.startActivity(i);*/
-
 
         Toast.makeText(context, "Test", Toast.LENGTH_LONG).show();
 
@@ -69,28 +52,11 @@ public class AlarmReceiver extends BroadcastReceiver {
 
     }
 
-    public void setAlarm(Context context)
-    {
-
-        Log.d("Carbon","Alrm SET !!");
-
-        // get a Calendar object with current time
-        Calendar cal = Calendar.getInstance();
-        // add 30 seconds to the calendar object
-        cal.add(Calendar.SECOND, 10);
-        Intent intent = new Intent("ilku.ru.alarmclock.receive.ALARM");
-        PendingIntent sender = PendingIntent.getBroadcast(context, 192837, intent, PendingIntent.FLAG_UPDATE_CURRENT);
-
-        // Get the AlarmManager service
-        AlarmManager am = (AlarmManager) context.getSystemService(context.ALARM_SERVICE);
-        am.set(AlarmManager.RTC_WAKEUP, cal.getTimeInMillis(), sender);
-
-
-        /* AlarmManager alarmMgr = (AlarmManager)context.getSystemService(Context.ALARM_SERVICE);
+    public void startRepeatingTimer(Context context){
+        alarmMgr = (AlarmManager)context.getSystemService(Context.ALARM_SERVICE);
         //(Intent) - это механизм для описания одной операции - выбрать фотографию, отправить письмо, сделать звонок, запустить браузер...
-        Intent intent = new Intent(context, AlarmReceiver.class);//
-        intent.setAction(ACTION_ALARM);
-        PendingIntent alarmIntent = PendingIntent.getBroadcast(context, 0, intent, 0);
+        Intent intent = new Intent("ilku.ru.alarmclock.receive.ALARM");
+        pendingIntent = PendingIntent.getBroadcast(context, 0, intent, 0);
 
 
         Calendar calendar = Calendar.getInstance();
@@ -99,32 +65,16 @@ public class AlarmReceiver extends BroadcastReceiver {
         int repeatingTime = 1000 * 60;
 
         alarmMgr.setRepeating(AlarmManager.RTC_WAKEUP, calendar.getTimeInMillis(),
-                repeatingTime, alarmIntent);*/
-
-
-
-        /*AlarmManager am=(AlarmManager)context.getSystemService(Context.ALARM_SERVICE);
-        Intent intent=new Intent(context, AlarmReceiver.class);
-        intent.putExtra(ONE_TIME, Boolean.FALSE);//Задаем параметр интента
-        PendingIntent pi= PendingIntent.getBroadcast(context,0, intent,0);
-        //Устанавливаем интервал срабатывания в 5 секунд.
-        am.setRepeating(AlarmManager.RTC_WAKEUP,System.currentTimeMillis()+10000,1000*60,pi);*/
+                repeatingTime, pendingIntent);
     }
 
     public void cancelAlarm(Context context)
     {
-        Intent intent=new Intent(context, AlarmReceiver.class);
-        PendingIntent sender= PendingIntent.getBroadcast(context,0, intent,0);
-        AlarmManager alarmManager=(AlarmManager) context.getSystemService(Context.ALARM_SERVICE);
-        alarmManager.cancel(sender);//Отменяем будильник, связанный с интентом данного класса
-    }
+        alarmMgr = (AlarmManager)context.getSystemService(Context.ALARM_SERVICE);
+        //(Intent) - это механизм для описания одной операции - выбрать фотографию, отправить письмо, сделать звонок, запустить браузер...
+        Intent intent = new Intent("ilku.ru.alarmclock.receive.ALARM");
+        pendingIntent = PendingIntent.getBroadcast(context, 0, intent, 0);
 
-    public void setOnetimeTimer(Context context){
-        /*AlarmManager am=(AlarmManager)context.getSystemService(Context.ALARM_SERVICE);
-        Intent intent=new Intent(context, AlarmReceiver.class);
-        intent.putExtra(ONE_TIME, Boolean.TRUE);//Задаем параметр интента
-        PendingIntent pi= PendingIntent.getBroadcast(context,0, intent,0);
-        am.set(AlarmManager.RTC_WAKEUP,System.currentTimeMillis(),pi);*/
+        alarmMgr.cancel(pendingIntent);//Отменяем будильник, связанный с интентом данного класса
     }
-
 }

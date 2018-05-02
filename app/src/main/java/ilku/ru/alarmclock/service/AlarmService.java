@@ -26,16 +26,13 @@ import ilku.ru.alarmclock.activity.AllClockActivity;
 import ilku.ru.alarmclock.model.Alarm;
 import ilku.ru.alarmclock.receive.AlarmReceiver;
 
-import static ilku.ru.alarmclock.receive.AlarmReceiver.ACTION_ALARM;
 
 /**
  * Needed for background work
  * */
 public class AlarmService extends Service {
 
-    private BroadcastReceiver alarmReceiver;
-    private AlarmManager alarmMgr;
-    private PendingIntent pendingIntent;
+    private AlarmReceiver alarmReceiver;
     /**
      * A constructor is required, and must call the super IntentService(String)
      * constructor with a name for the worker thread.
@@ -110,7 +107,7 @@ public class AlarmService extends Service {
         intentFilter.setPriority(100);
         alarmReceiver = new AlarmReceiver();
         registerReceiver(alarmReceiver, intentFilter);
-        startRepeatingTimer();
+        alarmReceiver.startRepeatingTimer(this);
         Toast.makeText(this,"onCreate" + i++, Toast.LENGTH_SHORT).show();
     }
 
@@ -132,7 +129,7 @@ public class AlarmService extends Service {
     public void onDestroy() {
         System.out.println("Destroy AlarmService");
         super.onDestroy();
-        cancelAlarm();
+        alarmReceiver.cancelAlarm(this);
         if(alarmReceiver!=null)
         {
             unregisterReceiver(alarmReceiver);
@@ -144,26 +141,4 @@ public class AlarmService extends Service {
     {
         return null;
     }
-
-    public void startRepeatingTimer(/*View view*/){
-        alarmMgr = (AlarmManager)getSystemService(Context.ALARM_SERVICE);
-        //(Intent) - это механизм для описания одной операции - выбрать фотографию, отправить письмо, сделать звонок, запустить браузер...
-        Intent intent = new Intent("ilku.ru.alarmclock.receive.ALARM");
-        pendingIntent = PendingIntent.getBroadcast(this, 0, intent, 0);
-
-
-        Calendar calendar = Calendar.getInstance();
-        calendar.setTimeInMillis(System.currentTimeMillis()+5000);
-
-        int repeatingTime = 1000 * 60;
-
-        alarmMgr.setRepeating(AlarmManager.RTC_WAKEUP, calendar.getTimeInMillis(),
-                repeatingTime, pendingIntent);
-    }
-
-    public void cancelAlarm()
-    {
-        alarmMgr.cancel(pendingIntent);//Отменяем будильник, связанный с интентом данного класса
-    }
-
 }

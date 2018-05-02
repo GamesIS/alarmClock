@@ -63,33 +63,4 @@ public class AllClockActivity extends AppCompatActivity {
 
     }
 
-
-    public void startRepeatingTimer(/*View view*/){
-        Context context= this.getApplicationContext();
-        if(alarmReceiver !=null){
-            alarmReceiver.setAlarm(context);
-        }else{
-            Toast.makeText(context,"Alarm is null", Toast.LENGTH_SHORT).show();
-        }
-    }
-
-    public void cancelRepeatingTimer(View view){
-        Context context= this.getApplicationContext();
-        if(alarmReceiver !=null){
-            alarmReceiver.cancelAlarm(context);
-        }else{
-            Toast.makeText(context,"Alarm is null", Toast.LENGTH_SHORT).show();
-        }
-    }
-
-    public void onetimeTimer(View view){
-        Context context= this.getApplicationContext();
-        if(alarmReceiver !=null){
-            alarmReceiver.setOnetimeTimer(context);
-        }else{
-            Toast.makeText(context,"Alarm is null", Toast.LENGTH_SHORT).show();
-        }
-    }
-
-
 }
