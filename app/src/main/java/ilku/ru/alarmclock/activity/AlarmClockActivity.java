@@ -21,25 +21,18 @@ import java.io.IOException;
 import ilku.ru.alarmclock.R;
 
 public class AlarmClockActivity extends Activity {
+    public static boolean isActive = false;
 
     private AlarmManager alarmMgr;
     private PendingIntent pendingIntent;
     private AlarmThread alarmThread;
-
-
-
     private Vibrator vibrator;
-
-    public static boolean isActive = false;
-
     private MediaPlayer mMediaPlayer;
 
     private final static int MAX_VOLUME = 100;
     private final static int VOLUME_STEP = 15;//Шаг увеличения
-
     private int CURRENT_VOLUME = 10;
     private boolean soundIncrease = false;//Нарастающий звук
-
 
     @Override
     protected void onStart() {
