@@ -2,7 +2,6 @@ package ilku.ru.alarmclock.activity;
 
 import android.app.Activity;
 import android.app.AlarmManager;
-import android.app.KeyguardManager;
 import android.app.PendingIntent;
 import android.content.Context;
 import android.content.Intent;
@@ -12,9 +11,7 @@ import android.media.RingtoneManager;
 import android.net.Uri;
 import android.os.PowerManager;
 import android.os.Vibrator;
-import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
-import android.view.ViewGroup;
 import android.view.WindowManager;
 import android.widget.TextView;
 import android.widget.Toast;
@@ -22,16 +19,22 @@ import android.widget.Toast;
 import java.io.IOException;
 
 import ilku.ru.alarmclock.R;
-import ilku.ru.alarmclock.model.Alarm;
 
 public class AlarmClockActivity extends Activity {
 
     private AlarmManager alarmMgr;
     private PendingIntent pendingIntent;
+    private AlarmThread alarmThread;
+
+    private Vibrator vibrator;
 
     public static boolean isActive = false;
 
     private MediaPlayer mMediaPlayer;
+
+    private final static int MAX_VOLUME = 100;
+    private final static int CURRENT_VOLUME = 10;
+
 
     @Override
     protected void onStart() {
@@ -48,19 +51,10 @@ public class AlarmClockActivity extends Activity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        //getWindow().setType(WindowManager.LayoutParams.TYPE_SYSTEM_OVERLAY);
-        /*KeyguardManager.KeyguardLock lock = ((KeyguardManager) getSystemService(Activity.KEYGUARD_SERVICE)).newKeyguardLock(KEYGUARD_SERVICE);
-        PowerManager powerManager = ((PowerManager) getSystemService(Context.POWER_SERVICE));
-        PowerManager.WakeLock wake = powerManager.newWakeLock(PowerManager.PARTIAL_WAKE_LOCK | PowerManager.ACQUIRE_CAUSES_WAKEUP, "TAG");
-
-        lock.disableKeyguard();
-        wake.acquire();*/
         PowerManager pm=(PowerManager) getSystemService(Context.POWER_SERVICE);
         PowerManager.WakeLock wl = pm.newWakeLock(PowerManager.SCREEN_BRIGHT_WAKE_LOCK | PowerManager.ACQUIRE_CAUSES_WAKEUP, "tag");
         //Осуществляем блокировку
         wl.acquire();//Это нужно чтобы не погас экран
-
-        //getWindow().setLayout(ViewGroup.LayoutParams.MATCH_PARENT, ViewGroup.LayoutParams.MATCH_PARENT);
 
         getWindow().addFlags(WindowManager.LayoutParams.FLAG_SHOW_WHEN_LOCKED// Выводим поверх экрана блокировки
                 | WindowManager.LayoutParams.FLAG_DISMISS_KEYGUARD
@@ -68,14 +62,11 @@ public class AlarmClockActivity extends Activity {
                 | WindowManager.LayoutParams.FLAG_TURN_SCREEN_ON
                 | WindowManager.LayoutParams.FLAG_ALLOW_LOCK_WHILE_SCREEN_ON);
 
-
-        //getWindow().setType(WindowManager.LayoutParams.TYPE_APPLICATION_OVERLAY);
         setContentView(R.layout.activity_alarm_clock);
 
 
-        Vibrator v;
-        v=(Vibrator)getSystemService(Context.VIBRATOR_SERVICE);
-        v.vibrate(1000);
+        vibrator =(Vibrator)getSystemService(Context.VIBRATOR_SERVICE);
+        vibrator.vibrate(1000);
 
         //Разблокируем поток.
         wl.release();
@@ -84,24 +75,30 @@ public class AlarmClockActivity extends Activity {
             TextView textView = findViewById(R.id.textView);
             textView.setText("Ты проклят");
             cancelAlarm();
-            v.vibrate(1000);
+            vibrator.vibrate(1000);
             if(mMediaPlayer != null && mMediaPlayer.isPlaying()){
                 mMediaPlayer.stop();
             }
+            alarmThread.interrupt();
             finish();
         });
 
         findViewById(R.id.buttonIgnor).setOnClickListener((buttonIgnor)->{
             TextView textView = findViewById(R.id.textView);
             textView.setText("Игнор");
-            v.vibrate(1000);
+            vibrator.vibrate(1000);
             if(mMediaPlayer != null && mMediaPlayer.isPlaying()){
                 mMediaPlayer.stop();
+
             }
+            alarmThread.interrupt();
             finish();
         });
 
         playSound(this, getAlarmUri());
+
+        alarmThread = new AlarmThread();
+        alarmThread.start();
     }
 
     public void cancelAlarm()
@@ -121,7 +118,11 @@ public class AlarmClockActivity extends Activity {
 
     private void playSound(Context context, Uri alert) {
         mMediaPlayer = new MediaPlayer();
-        mMediaPlayer.setLooping(true);//Повторение
+        mMediaPlayer.setLooping(true);//
+        //int currentVolume = 100;
+        final float volume = (float) (1 - (Math.log(MAX_VOLUME - CURRENT_VOLUME) / Math.log(MAX_VOLUME)));
+
+        mMediaPlayer.setVolume(volume, volume);
         try {
             mMediaPlayer.setDataSource(context, alert);
             final AudioManager audioManager = (AudioManager) context
@@ -136,8 +137,6 @@ public class AlarmClockActivity extends Activity {
         }
     }
 
-    //Get an alarm sound. Try for an alarm. If none set, try notification,
-    //Otherwise, ringtone.
     private Uri getAlarmUri() {
         Uri alert = RingtoneManager
                 .getDefaultUri(RingtoneManager.TYPE_ALARM);
@@ -150,5 +149,30 @@ public class AlarmClockActivity extends Activity {
             }
         }
         return alert;
+    }
+
+    private class AlarmThread extends Thread{
+        @Override
+        public void run() {
+            //isActive = true;
+            final long[] pattern = {0, 2000, 1000};
+            for(int i = 0; i < 20; i++){
+                if(!isInterrupted()){
+                    vibrator.vibrate(pattern, -1);
+                    try {
+                        Thread.sleep(3000);
+                    } catch (InterruptedException e) {
+                        System.out.println("Thread disable");
+                        Toast.makeText(AlarmClockActivity.this,"Поток завершен аварийно", Toast.LENGTH_SHORT).show();
+                        return;
+                    }
+                }
+                else return;
+            }
+            if(mMediaPlayer != null && mMediaPlayer.isPlaying()){
+                mMediaPlayer.stop();
+            }
+            finish();
+        }
     }
 }
