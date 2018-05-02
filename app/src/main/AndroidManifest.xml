@@ -2,10 +2,8 @@
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
     package="ilku.ru.alarmclock">
 
-
-    <uses-permission android:name="android.permission.VIBRATE"></uses-permission>
+    <uses-permission android:name="android.permission.VIBRATE" />
     <uses-permission android:name="android.permission.WAKE_LOCK" />
-
 
     <application
         android:allowBackup="true"
@@ -14,28 +12,26 @@
         android:roundIcon="@mipmap/ic_launcher_round"
         android:supportsRtl="true"
         android:theme="@style/AppTheme">
-
-        <service android:name=".service.AlarmService" android:process=":alarmService"/><!--android:exported="true" android:process=":alarmService" android:stopWithTask="false"-->
-        <!--<receiver android:name=".receive.AlarmReceiver" android:process=":remote"/>-->
-        <!--<receiver android:process=":remote" android:name=".receive.AlarmReceiver"></receiver>-->
+        <service
+            android:name=".service.AlarmService"
+            android:process=":alarmService" /> <!-- android:exported="true" android:process=":alarmService" android:stopWithTask="false" -->
+        <!-- <receiver android:name=".receive.AlarmReceiver" android:process=":remote"/> -->
+        <!-- <receiver android:process=":remote" android:name=".receive.AlarmReceiver"></receiver> -->
         <receiver android:name=".receive.AlarmReceiver">
             <intent-filter>
                 <action android:name="ilku.ru.alarmclock.receive.ALARM" />
             </intent-filter>
         </receiver>
 
-
         <activity android:name=".activity.AllClockActivity">
-
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
 
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
-        <activity android:name=".activity.NewClockActivity">
-
-        </activity>
+        <activity android:name=".activity.NewClockActivity"></activity>
+        <activity android:name=".activity.AlarmClockActivity"></activity>
     </application>
 
 </manifest>

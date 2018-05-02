@@ -15,7 +15,9 @@ import java.text.Format;
 import java.text.SimpleDateFormat;
 import java.util.Calendar;
 
+import ilku.ru.alarmclock.activity.AlarmClockActivity;
 import ilku.ru.alarmclock.activity.AllClockActivity;
+import ilku.ru.alarmclock.activity.NewClockActivity;
 
 public class AlarmReceiver extends BroadcastReceiver {
 
@@ -37,7 +39,7 @@ public class AlarmReceiver extends BroadcastReceiver {
         //Осуществляем блокировку
         wl.acquire();//Это нужно чтобы не погас экран
 
-        Intent intentone = new Intent(context.getApplicationContext(), AllClockActivity.class);
+        Intent intentone = new Intent(context.getApplicationContext(), AlarmClockActivity.class);
         intentone.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TASK | Intent.FLAG_ACTIVITY_CLEAR_TOP | Intent.FLAG_ACTIVITY_NEW_TASK);
         context.startActivity(intentone);
 

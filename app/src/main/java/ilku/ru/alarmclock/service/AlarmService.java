@@ -107,7 +107,7 @@ public class AlarmService extends Service {
         intentFilter.setPriority(100);
         alarmReceiver = new AlarmReceiver();
         registerReceiver(alarmReceiver, intentFilter);
-        alarmReceiver.startRepeatingTimer(this);
+        //alarmReceiver.startRepeatingTimer(this);
         Toast.makeText(this,"onCreate" + i++, Toast.LENGTH_SHORT).show();
     }
 
