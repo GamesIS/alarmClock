@@ -34,9 +34,8 @@ import static ilku.ru.alarmclock.receive.AlarmReceiver.ACTION_ALARM;
 public class AlarmService extends Service {
 
     private BroadcastReceiver alarmReceiver;
-    private long time;
-
-    Alarm alarm = new Alarm();
+    private AlarmManager alarmMgr;
+    private PendingIntent pendingIntent;
     /**
      * A constructor is required, and must call the super IntentService(String)
      * constructor with a name for the worker thread.
@@ -96,108 +95,35 @@ public class AlarmService extends Service {
     }
 
     /*Can be useful*/
+    public static int i = 0;
     @Override
     public void onCreate() {
         System.out.println("Create AlarmService");
-        /*alarmReceiver =new AlarmReceiver();
-        final IntentFilter theFilter = new IntentFilter(ACTIVITY_SERVICE);
-        //theFilter.addAction(ACTIVITY_SERVICE);
-        alarmReceiver = new BroadcastReceiver() {*/
-
-        /*IntentFilter intentFilter = new IntentFilter();
-
-        // Add network connectivity change action.
-        intentFilter.addAction("android.intent.action.SCREEN_ON");
-        intentFilter.addAction("android.intent.action.SCREEN_OFF");
-
-        // Set broadcast receiver priority.
-        intentFilter.setPriority(100);
-
-        // Create a network change broadcast receiver.
-        screenOnOffReceiver = new ScreenOnOffReceiver();
-
-        // Register the broadcast receiver with the intent filter object.
-        registerReceiver(screenOnOffReceiver, intentFilter);*/
-
-            /*@Override
-            public void onReceive(Context context, Intent intent) {
-                System.out.println("test");
-                *//*PowerManager pm=(PowerManager) context.getSystemService(Context.POWER_SERVICE);
-                PowerManager.WakeLock wl = pm.newWakeLock(PowerManager.SCREEN_BRIGHT_WAKE_LOCK | PowerManager.ACQUIRE_CAUSES_WAKEUP, "tag");
-                //Осуществляем блокировку
-                wl.acquire();//Это нужно чтобы не погас экран
-
-
-                Intent intentone = new Intent(context.getApplicationContext(), AllClockActivity.class);
-                intentone.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TASK | Intent.FLAG_ACTIVITY_CLEAR_TOP | Intent.FLAG_ACTIVITY_NEW_TASK);
-                context.startActivity(intentone);
-
-                Toast.makeText(context, "Test", Toast.LENGTH_LONG).show();
-
-                Vibrator v;
-                v=(Vibrator)context.getSystemService(Context.VIBRATOR_SERVICE);
-                v.vibrate(3000);
-
-                //Разблокируем поток.
-                wl.release();*//*
-            }
-        };
-        // Registers the receiver so that your service will listen for
-        // broadcasts
-        registerReceiver(alarmReceiver, theFilter);*/
         super.onCreate();
 
         IntentFilter intentFilter = new IntentFilter();
-
-        // Add network connectivity change action.
-        intentFilter.addAction("android.intent.action.SCREEN_ON");
-        intentFilter.addAction("android.intent.action.SCREEN_OFF");
+        intentFilter.addAction("ilku.ru.alarmclock.receive.ALARM");
+        //intentFilter.addAction("android.intent.action.SCREEN_ON");
+        //intentFilter.addAction("android.intent.action.SCREEN_OFF");
 
         // Set broadcast receiver priority.
         intentFilter.setPriority(100);
-
-        // Create a network change broadcast receiver.
         alarmReceiver = new AlarmReceiver();
-
-        // Register the broadcast receiver with the intent filter object.
         registerReceiver(alarmReceiver, intentFilter);
+        startRepeatingTimer();
+        Toast.makeText(this,"onCreate" + i++, Toast.LENGTH_SHORT).show();
     }
-
-    /*@Override
-    public void onStart(@Nullable Intent intent, int startId) {
-        System.out.println("Start AlarmService");
-        alarm.setAlarm(this);
-        super.onStart(intent, startId);
-    }
-*/
-    boolean t;
 
     @Override
     public int onStartCommand(@Nullable Intent intent, int flags, int startId) {
         System.out.println("StartCommand AlarmService");
-        alarm.setAlarm(this);
-        /*Toast.makeText(this, "Служба создана",
-                Toast.LENGTH_SHORT).show();
-        t= true;
-        while (t){
-            synchronized (this){
-                try {
-                    wait(5000);
-                    Vibrator v;
-                    v=(Vibrator)getSystemService(Context.VIBRATOR_SERVICE);
-                    v.vibrate(1000);
-                    Toast.makeText(this, "Служба создана",
-                            Toast.LENGTH_SHORT).show();
-                } catch (Exception e) {
-                    e.printStackTrace();
-                }
-            }
-        }
-*/
 
-        //alarm.setAlarm(this);
         //return super.onStartCommand(intent, flags, startId);
-        return super.onStartCommand(intent, flags, startId);
+        return START_STICKY;
+        //return START_REDELIVER_INTENT;
+        /*
+        сервис будет перезапущен после того, как был убит системой. Кроме этого, сервис снова получит все вызовы startService, которые не были завершены методом stopSelf(startId).
+        */
         //return START_NOT_STICKY;//Сервис будет не перезапущен после того как был убит системой
         //return START_STICKY;//Сервис будет перезапущен после того как был убит системой
     }
@@ -205,9 +131,8 @@ public class AlarmService extends Service {
     @Override
     public void onDestroy() {
         System.out.println("Destroy AlarmService");
-        /*unregisterReceiver(alarmReceiver);*/
         super.onDestroy();
-
+        cancelAlarm();
         if(alarmReceiver!=null)
         {
             unregisterReceiver(alarmReceiver);
@@ -221,11 +146,10 @@ public class AlarmService extends Service {
     }
 
     public void startRepeatingTimer(/*View view*/){
-        AlarmManager alarmMgr = (AlarmManager)getSystemService(Context.ALARM_SERVICE);
+        alarmMgr = (AlarmManager)getSystemService(Context.ALARM_SERVICE);
         //(Intent) - это механизм для описания одной операции - выбрать фотографию, отправить письмо, сделать звонок, запустить браузер...
-        Intent intent = new Intent(this, AlarmReceiver.class);
-        intent.setAction(ACTION_ALARM);
-        PendingIntent alarmIntent = PendingIntent.getBroadcast(this, 0, intent, 0);
+        Intent intent = new Intent("ilku.ru.alarmclock.receive.ALARM");
+        pendingIntent = PendingIntent.getBroadcast(this, 0, intent, 0);
 
 
         Calendar calendar = Calendar.getInstance();
@@ -234,25 +158,12 @@ public class AlarmService extends Service {
         int repeatingTime = 1000 * 60;
 
         alarmMgr.setRepeating(AlarmManager.RTC_WAKEUP, calendar.getTimeInMillis(),
-                repeatingTime, alarmIntent);
+                repeatingTime, pendingIntent);
     }
 
-    /*public void cancelRepeatingTimer(View view){
-        Context context= this.getApplicationContext();
-        if(alarmReceiver !=null){
-            alarmReceiver.cancelAlarm(context);
-        }else{
-            Toast.makeText(context,"Alarm is null", Toast.LENGTH_SHORT).show();
-        }
+    public void cancelAlarm()
+    {
+        alarmMgr.cancel(pendingIntent);//Отменяем будильник, связанный с интентом данного класса
     }
-
-    public void onetimeTimer(View view){
-        Context context= this.getApplicationContext();
-        if(alarmReceiver !=null){
-            alarmReceiver.setOnetimeTimer(context);
-        }else{
-            Toast.makeText(context,"Alarm is null", Toast.LENGTH_SHORT).show();
-        }
-    }*/
 
 }

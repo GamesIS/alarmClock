@@ -15,9 +15,14 @@
         android:supportsRtl="true"
         android:theme="@style/AppTheme">
 
-        <service android:name=".service.AlarmService" android:enabled="true" android:process=":alarmService"/><!--android:exported="true" android:process=":alarmService" android:stopWithTask="false"-->
+        <service android:name=".service.AlarmService" android:process=":alarmService"/><!--android:exported="true" android:process=":alarmService" android:stopWithTask="false"-->
         <!--<receiver android:name=".receive.AlarmReceiver" android:process=":remote"/>-->
-        <receiver android:process=":remote" android:name=".receive.AlarmReceiver"></receiver>
+        <!--<receiver android:process=":remote" android:name=".receive.AlarmReceiver"></receiver>-->
+        <receiver android:name=".receive.AlarmReceiver">
+            <intent-filter>
+                <action android:name="ilku.ru.alarmclock.receive.ALARM" />
+            </intent-filter>
+        </receiver>
 
 
         <activity android:name=".activity.AllClockActivity">

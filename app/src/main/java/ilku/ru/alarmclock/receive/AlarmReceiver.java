@@ -62,7 +62,7 @@ public class AlarmReceiver extends BroadcastReceiver {
 
         Vibrator v;
         v=(Vibrator)context.getSystemService(Context.VIBRATOR_SERVICE);
-        v.vibrate(3000);
+        v.vibrate(1000);
 
         //Разблокируем поток.
         wl.release();
@@ -72,7 +72,21 @@ public class AlarmReceiver extends BroadcastReceiver {
     public void setAlarm(Context context)
     {
 
-        AlarmManager alarmMgr = (AlarmManager)context.getSystemService(Context.ALARM_SERVICE);
+        Log.d("Carbon","Alrm SET !!");
+
+        // get a Calendar object with current time
+        Calendar cal = Calendar.getInstance();
+        // add 30 seconds to the calendar object
+        cal.add(Calendar.SECOND, 10);
+        Intent intent = new Intent("ilku.ru.alarmclock.receive.ALARM");
+        PendingIntent sender = PendingIntent.getBroadcast(context, 192837, intent, PendingIntent.FLAG_UPDATE_CURRENT);
+
+        // Get the AlarmManager service
+        AlarmManager am = (AlarmManager) context.getSystemService(context.ALARM_SERVICE);
+        am.set(AlarmManager.RTC_WAKEUP, cal.getTimeInMillis(), sender);
+
+
+        /* AlarmManager alarmMgr = (AlarmManager)context.getSystemService(Context.ALARM_SERVICE);
         //(Intent) - это механизм для описания одной операции - выбрать фотографию, отправить письмо, сделать звонок, запустить браузер...
         Intent intent = new Intent(context, AlarmReceiver.class);//
         intent.setAction(ACTION_ALARM);
@@ -85,7 +99,7 @@ public class AlarmReceiver extends BroadcastReceiver {
         int repeatingTime = 1000 * 60;
 
         alarmMgr.setRepeating(AlarmManager.RTC_WAKEUP, calendar.getTimeInMillis(),
-                repeatingTime, alarmIntent);
+                repeatingTime, alarmIntent);*/
 
 
 
