@@ -7,36 +7,45 @@
     tools:context=".activity.AlarmClockActivity">
 
     <Button
-        android:id="@+id/buttonIgnor"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
+        android:id="@+id/buttonDefer"
+
+        android:layout_width="250dp"
+        android:layout_height="40dp"
+
         android:layout_marginBottom="8dp"
         android:layout_marginEnd="8dp"
         android:layout_marginStart="8dp"
         android:layout_marginTop="8dp"
-        android:text="Игнор(Повтор через минуту)"
+        android:background="@drawable/buttonDeferShape"
+        android:text="@string/en_alarm_clock_activity_button_set_aside"
+        android:textColor="#121212"
+        android:textSize="14sp"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.504"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent"
-        app:layout_constraintVertical_bias="0.684" />
+        app:layout_constraintVertical_bias="0.863" />
 
     <Button
-        android:id="@+id/buttonOffAlarm"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
+        android:id="@+id/buttonOff"
+
+        android:layout_width="213dp"
+        android:layout_height="40dp"
+
         android:layout_marginBottom="8dp"
         android:layout_marginEnd="8dp"
-        android:layout_marginStart="8dp"
+        android:layout_marginStart="74dp"
         android:layout_marginTop="8dp"
-        android:text="Отключить"
+        android:background="@drawable/buttonOffShape"
+        android:text="@string/en_alarm_clock_activity_button_off"
+        android:textColor="#191919"
+        android:textSize="18sp"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.502"
+        app:layout_constraintHorizontal_bias="0.0"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent"
-        app:layout_constraintVertical_bias="0.814" />
+        app:layout_constraintVertical_bias="0.982" />
 
     <TextView
         android:id="@+id/textView"
@@ -46,11 +55,27 @@
         android:layout_marginEnd="8dp"
         android:layout_marginStart="8dp"
         android:layout_marginTop="8dp"
-        android:text="Вставай"
+        android:text="@string/ru_alarm_clock_activity_text_wake_up"
+        android:textAlignment="center"
         android:textSize="36sp"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent"
-        app:layout_constraintVertical_bias="0.498" />
+        app:layout_constraintVertical_bias="0.67" />
+
+    <TextView
+        android:id="@+id/textView2"
+        android:layout_width="293dp"
+        android:layout_height="226dp"
+        android:layout_marginBottom="24dp"
+        android:layout_marginEnd="27dp"
+        android:layout_marginStart="40dp"
+        android:layout_marginTop="24dp"
+        android:text="@string/en_alarm_clock_activity_text_picture"
+        android:textAlignment="center"
+        app:layout_constraintBottom_toTopOf="@+id/textView"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent" />
 </android.support.constraint.ConstraintLayout>

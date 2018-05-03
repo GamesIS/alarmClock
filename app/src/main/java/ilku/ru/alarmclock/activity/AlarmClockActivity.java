@@ -81,7 +81,7 @@ public class AlarmClockActivity extends Activity {
             finish();
         });
 
-        findViewById(R.id.buttonIgnor).setOnClickListener((buttonIgnor)->{
+        findViewById(R.id.buttonDefer).setOnClickListener((buttonIgnor)->{
             TextView textView = findViewById(R.id.textView);
             textView.setText("Игнор");
             vibrator.vibrate(1000);

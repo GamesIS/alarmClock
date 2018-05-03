@@ -1,7 +1,23 @@
 <resources>
-    <string name="app_name">alarmClock</string>
-    <string name="new_clock_activity_plain_text_new_clock_time">Enter alarm clock time</string>
-    <string name="new_clock_activity_plain_text_new_clock_name">Enter alarm clock name</string>
-    <string name="new_clock_activity_plain_text_new_clock_name_hint">Enter alarm clock name here</string>
-    <string name="new_clock_activity_button_ok">Done</string>
+    <string name="en_app_name">DirtyClocky</string>
+    <string name="en_new_clock_activity_plain_text_new_clock_time">Enter alarm clock time</string>
+    <string name="en_new_clock_activity_plain_text_new_clock_name">Enter alarm clock name</string>
+    <string name="en_new_clock_activity_plain_text_new_clock_name_hint">Enter alarm clock name here</string>
+    <string name="en_new_clock_activity_button_ok">Done</string>
+    <string name="en_all_clock_activity_plus">+</string>
+    <string name="en_alarm_clock_activity_button_off">Off</string>
+    <string name="en_alarm_clock_activity_button_set_aside">Set aside</string>
+    <string name="en_alarm_clock_activity_text_wake_up">Wake up</string>
+    <string name="en_alarm_clock_activity_text_picture">Here can be placed your picture</string>
+
+    <string name="ru_app_name">Грязные часики</string>
+    <string name="ru_new_clock_activity_plain_text_new_clock_time">Enter alarm clock time</string>
+    <string name="ru_new_clock_activity_plain_text_new_clock_name">Enter alarm clock name</string>
+    <string name="ru_new_clock_activity_plain_text_new_clock_name_hint">Enter alarm clock name here</string>
+    <string name="ru_new_clock_activity_button_ok">Done</string>
+    <string name="ru_all_clock_activity_plus">+</string>
+    <string name="ru_alarm_clock_activity_button_off">Off</string>
+    <string name="ru_alarm_clock_activity_button_set_aside">Set aside</string>
+    <string name="ru_alarm_clock_activity_text_wake_up">Wake up</string>
+
 </resources>

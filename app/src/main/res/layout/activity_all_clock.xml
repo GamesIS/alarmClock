@@ -6,18 +6,35 @@
     android:layout_height="match_parent"
     tools:context=".activity.AllClockActivity">
 
+    <!--<Button-->
+        <!--android:id="@+id/buttonPlus"-->
+        <!--android:layout_width="59dp"-->
+        <!--android:layout_height="61dp"-->
+        <!--android:layout_marginTop="8dp"-->
+        <!--android:background="@android:drawable/ic_input_add"-->
+        <!--android:textSize="12sp"-->
+        <!--android:textStyle="italic"-->
+        <!--app:layout_constraintBottom_toBottomOf="parent"-->
+        <!--app:layout_constraintEnd_toEndOf="parent"-->
+        <!--app:layout_constraintHorizontal_bias="0.981"-->
+        <!--app:layout_constraintStart_toStartOf="parent"-->
+        <!--app:layout_constraintTop_toTopOf="parent"-->
+        <!--app:layout_constraintVertical_bias="0.99" />-->
+
     <Button
         android:id="@+id/buttonPlus"
-        android:layout_width="59dp"
-        android:layout_height="61dp"
-        android:layout_marginTop="8dp"
-        android:background="@android:drawable/ic_input_add"
-        android:textSize="12sp"
-        android:textStyle="italic"
-        app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.981"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent"
-        app:layout_constraintVertical_bias="0.99" />
+
+        android:layout_width="70dp"
+        android:layout_height="70dp"
+
+        android:background="@drawable/buttonPlusShape"
+        android:shadowColor="#A8A8A8"
+        android:shadowDx="0"
+        android:shadowDy="0"
+        android:shadowRadius="5"
+        android:text="@string/en_all_clock_activity_plus"
+        android:textColor="#FFFFFF"
+        android:textSize="30sp"
+        tools:layout_editor_absoluteX="274dp"
+        tools:layout_editor_absoluteY="425dp" />
 </android.support.constraint.ConstraintLayout>
