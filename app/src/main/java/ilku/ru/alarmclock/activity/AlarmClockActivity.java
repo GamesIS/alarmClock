@@ -32,7 +32,7 @@ public class AlarmClockActivity extends Activity {
     private final static int MAX_VOLUME = 100;
     private final static int VOLUME_STEP = 15;//Шаг увеличения
     private int CURRENT_VOLUME = 10;
-    private boolean soundIncrease = false;//Нарастающий звук
+    private boolean soundIncrease = true;//Нарастающий звук
 
     @Override
     protected void onStart() {
