@@ -69,7 +69,7 @@ public class AlarmClockActivity extends Activity {
         //Разблокируем поток.
         wl.release();
 
-        findViewById(R.id.buttonOffAlarm).setOnClickListener((buttonOffAlarm)->{
+        findViewById(R.id.buttonOff).setOnClickListener((buttonOffAlarm)->{
             TextView textView = findViewById(R.id.textView);
             textView.setText("Ты проклят");
             cancelAlarm();
