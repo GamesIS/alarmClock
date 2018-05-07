@@ -60,8 +60,8 @@ public class AllClockActivity extends AppCompatActivity {
 
         int repeatingTime = 1000 * 60;
 
-        alarmMgr.setRepeating(AlarmManager.RTC_WAKEUP, calendar.getTimeInMillis(),
-                repeatingTime, pendingIntent);
+        //alarmMgr.setRepeating(AlarmManager.RTC_WAKEUP, calendar.getTimeInMillis(),
+        //        repeatingTime, pendingIntent);
         /*alarmMgr.setRepeating(AlarmManager.RTC_WAKEUP, calendar.getTimeInMillis(),
                 repeatingTime+10000, p2);*/
     }
