@@ -34,33 +34,34 @@ public class NewClockActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_new_clock);
 
-        Alarm alarm = new Alarm();
 
         findViewById(R.id.buttonDone).setOnClickListener((view) -> {
             Intent addNewClock = new Intent(NewClockActivity.this, AllClockActivity.class);
             startActivity(addNewClock);
         });
 
-        alarmTime = findViewById(R.id.alarmName);
-        alarmTime.setInputType(InputType.TYPE_NULL);
-        alarmTime.setOnClickListener(v -> {
-                final Calendar calendar = Calendar.getInstance();
-                mHour = calendar.get(Calendar.HOUR_OF_DAY); // set default time by current time
-                mMinute = calendar.get(Calendar.MINUTE);
-
-                TimePickerDialog timePickerDialog = new TimePickerDialog(this, (view, hourOfDay, minute) -> {
-                    alarm.setHours(hourOfDay);
-                    alarm.setMinutes(minute);
-
-                    alarmTime.setText(hourOfDay + " : " + minute);
-                }, mHour, mMinute, true);
-                timePickerDialog.show();
-        });
-        saveThisAlarm(alarm);
+        buildNewAlarm();
     }
 
     private void buildNewAlarm(){
+        Alarm alarm = new Alarm();
 
+        alarmTime = findViewById(R.id.alarmName);
+        alarmTime.setInputType(InputType.TYPE_NULL);
+        alarmTime.setOnClickListener(v -> {
+            final Calendar calendar = Calendar.getInstance();
+            mHour = calendar.get(Calendar.HOUR_OF_DAY); // set default time by current time
+            mMinute = calendar.get(Calendar.MINUTE);
+
+            TimePickerDialog timePickerDialog = new TimePickerDialog(this, (view, hourOfDay, minute) -> {
+                alarm.setHours(hourOfDay);
+                alarm.setMinutes(minute);
+
+                alarmTime.setText(hourOfDay + " : " + minute);
+            }, mHour, mMinute, true);
+            timePickerDialog.show();
+        });
+        saveThisAlarm(alarm);
     }
 
     private void saveThisAlarm(Alarm thisAlarm) {
