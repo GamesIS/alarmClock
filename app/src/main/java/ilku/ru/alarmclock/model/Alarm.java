@@ -11,12 +11,15 @@ public class Alarm {
     private int id;
     private PendingIntent pendingIntent;
     private String soundPath;
-    private String hours;
-    private String minutes;
+    private int hours;
+    private int minutes;
     private int repeatTime;
     private boolean isSoundIncrease;
 
-    public Alarm(int id, PendingIntent pendingIntent, String soundPath, String hours, String minutes, int repeatTime, boolean isSoundIncrease) {
+    public Alarm() {
+    }
+
+    public Alarm(int id, PendingIntent pendingIntent, String soundPath, int hours, int minutes, int repeatTime, boolean isSoundIncrease) {
         this.id = id;
         this.pendingIntent = pendingIntent;
         this.soundPath = soundPath;
@@ -26,4 +29,59 @@ public class Alarm {
         this.isSoundIncrease = isSoundIncrease;
     }
 
+    public int getId() {
+        return id;
+    }
+
+    public void setId(int id) {
+        this.id = id;
+    }
+
+    public PendingIntent getPendingIntent() {
+        return pendingIntent;
+    }
+
+    public void setPendingIntent(PendingIntent pendingIntent) {
+        this.pendingIntent = pendingIntent;
+    }
+
+    public String getSoundPath() {
+        return soundPath;
+    }
+
+    public void setSoundPath(String soundPath) {
+        this.soundPath = soundPath;
+    }
+
+    public int getHours() {
+        return hours;
+    }
+
+    public void setHours(int hours) {
+        this.hours = hours;
+    }
+
+    public int getMinutes() {
+        return minutes;
+    }
+
+    public void setMinutes(int minutes) {
+        this.minutes = minutes;
+    }
+
+    public int getRepeatTime() {
+        return repeatTime;
+    }
+
+    public void setRepeatTime(int repeatTime) {
+        this.repeatTime = repeatTime;
+    }
+
+    public boolean isSoundIncrease() {
+        return isSoundIncrease;
+    }
+
+    public void setSoundIncrease(boolean soundIncrease) {
+        isSoundIncrease = soundIncrease;
+    }
 }
