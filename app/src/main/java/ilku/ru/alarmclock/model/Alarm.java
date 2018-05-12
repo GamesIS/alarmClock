@@ -37,6 +37,10 @@ public class Alarm {
         this.id = id;
     }
 
+    public long getTimeInMillis(){
+        throw new IllegalArgumentException("Not Implemented");
+    }
+
     public PendingIntent getPendingIntent() {
         return pendingIntent;
     }
