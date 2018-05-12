@@ -4,7 +4,7 @@
         android:radius="30dp"
         />
     <solid
-        android:color="#4F4F4F"
+        android:color="#ed0c9c52"
         />
     <padding
         android:left="0dp"
@@ -17,7 +17,7 @@
         android:height="50dp"
         />
     <stroke
-        android:width="3dp"
-        android:color="#878787"
+        android:width="1dp"
+        android:color="#ab08ec5c"
         />
 </shape>

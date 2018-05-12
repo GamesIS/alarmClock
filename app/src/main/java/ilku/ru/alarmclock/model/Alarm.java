@@ -8,32 +8,22 @@ import android.content.Intent;
 import java.util.Calendar;
 
 public class Alarm {
+    private int id;
     private PendingIntent pendingIntent;
     private String soundPath;
-    private Calendar calendar;
+    private String hours;
+    private String minutes;
     private int repeatTime;
     private boolean isSoundIncrease;
 
-    public Alarm(PendingIntent pendingIntent, String soundPath, Calendar calendar, int repeatTime, boolean isSoundIncrease) {
+    public Alarm(int id, PendingIntent pendingIntent, String soundPath, String hours, String minutes, int repeatTime, boolean isSoundIncrease) {
+        this.id = id;
         this.pendingIntent = pendingIntent;
         this.soundPath = soundPath;
-        this.calendar = calendar;
+        this.hours = hours;
+        this.minutes = minutes;
         this.repeatTime = repeatTime;
         this.isSoundIncrease = isSoundIncrease;
     }
-    public boolean isSoundIncrease() {
-        return isSoundIncrease;
-    }
 
-    public int getRepeatTime() {
-        return repeatTime;
-    }
-
-    public PendingIntent getPendingIntent() {
-        return pendingIntent;
-    }
-
-    public long getTimeInMillis(){
-        throw new UnsupportedOperationException("Метод не реализован");
-    }
 }
