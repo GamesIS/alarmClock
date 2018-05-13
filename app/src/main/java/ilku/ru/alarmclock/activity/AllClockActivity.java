@@ -4,10 +4,13 @@ import android.app.AlarmManager;
 import android.app.PendingIntent;
 import android.content.Context;
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
+import android.widget.Toast;
 
 import java.util.Calendar;
+import java.util.Map;
 
 import ilku.ru.alarmclock.R;
 import ilku.ru.alarmclock.service.AlarmService;
@@ -16,6 +19,8 @@ public class AllClockActivity extends AppCompatActivity {
 
     private AlarmManager alarmMgr;
     private PendingIntent pendingIntent;
+
+    public static final String APP_PREFERENCES = "dirtyClockySettings";
 
     static boolean isActive = false;
 
@@ -32,6 +37,13 @@ public class AllClockActivity extends AppCompatActivity {
             Intent createNewClock = new Intent(AllClockActivity.this, NewClockActivity.class);
             startActivity(createNewClock);
         });
+        findViewById(R.id.buttonload).setOnClickListener((buttonload) -> {
+            Map str = getSharedPreferences(APP_PREFERENCES, MODE_PRIVATE).getAll();
+            System.out.println("das" + "'" +str+ "'");
+            //Toast.makeText(this, savedAlarm, Toast.LENGTH_SHORT);
+            //System.out.println(savedAlarm);
+        });
+
 
     }
 

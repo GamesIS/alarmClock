@@ -18,6 +18,8 @@ import java.util.Calendar;
 import ilku.ru.alarmclock.R;
 import ilku.ru.alarmclock.model.Alarm;
 
+import static ilku.ru.alarmclock.activity.AllClockActivity.APP_PREFERENCES;
+
 public class NewClockActivity extends AppCompatActivity {
 
     private SharedPreferences savedAlarmPref;
@@ -62,18 +64,26 @@ public class NewClockActivity extends AppCompatActivity {
     }
 
     private void saveThisAlarm(Alarm thisAlarm) {
-        savedAlarmPref = getPreferences(MODE_PRIVATE); // set access mode only for this app
+        savedAlarmPref = getSharedPreferences(APP_PREFERENCES, MODE_PRIVATE);
         Editor editor = savedAlarmPref.edit(); // started editing data
         editor.putString(idGenerator.getSetID().toString(), new Gson().toJson(thisAlarm));
+
         editor.commit(); // commit new data
         Toast.makeText(this, "Text saved", Toast.LENGTH_SHORT).show();
     }
 
     public Alarm getAlarmByID(int id) {
-        savedAlarmPref = getPreferences(MODE_PRIVATE);
+        savedAlarmPref = getSharedPreferences(APP_PREFERENCES, MODE_PRIVATE);
         String savedAlarm = savedAlarmPref.getString(new Integer(id).toString(), "");
         Toast.makeText(this, "Text loaded", Toast.LENGTH_SHORT).show();
         return new Gson().fromJson(savedAlarm, Alarm.class);
+    }
+
+    public void getAllAlarm() {
+        savedAlarmPref = getSharedPreferences(APP_PREFERENCES, MODE_PRIVATE);
+        String savedAlarm = savedAlarmPref.getString(new Integer(0).toString(), "");
+        Toast.makeText(this, savedAlarm, Toast.LENGTH_SHORT).show();
+        //return new Gson().fromJson(savedAlarm, Alarm.class);
     }
 
     class IDGenerator {
