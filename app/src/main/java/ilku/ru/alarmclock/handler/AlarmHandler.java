@@ -16,8 +16,8 @@ public abstract class AlarmHandler {
     public static void registerAlarm(AlarmManager alarmMgr, Alarm alarm){
         //alarm.setId(alarms.size());
         alarms.add(alarm);
-        alarmMgr.setRepeating(AlarmManager.RTC_WAKEUP, alarm.getTimeInMillis(),
-                alarm.getRepeatTime(), alarm.getPendingIntent());
+//        alarmMgr.setRepeating(AlarmManager.RTC_WAKEUP, alarm.getTimeInMillis(),
+//                alarm.getRepeatTime(), alarm.getPendingIntent()); TODO: refactor this shit
         throw new UnsupportedOperationException("Метод не реализован!");
     }
 

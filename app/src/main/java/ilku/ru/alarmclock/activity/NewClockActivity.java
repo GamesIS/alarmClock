@@ -18,7 +18,7 @@ import java.util.Calendar;
 import ilku.ru.alarmclock.R;
 import ilku.ru.alarmclock.model.Alarm;
 
-import static ilku.ru.alarmclock.activity.AllClockActivity.APP_PREFERENCES;
+import static ilku.ru.alarmclock.activity.MainActivity.APP_PREFERENCES;
 
 public class NewClockActivity extends AppCompatActivity {
 
@@ -35,7 +35,7 @@ public class NewClockActivity extends AppCompatActivity {
 
 
         findViewById(R.id.buttonDone).setOnClickListener((view) -> {
-            Intent addNewClock = new Intent(NewClockActivity.this, AllClockActivity.class);
+            Intent addNewClock = new Intent(NewClockActivity.this, MainActivity.class);
             startActivity(addNewClock);
         });
 
@@ -53,8 +53,8 @@ public class NewClockActivity extends AppCompatActivity {
             mMinute = calendar.get(Calendar.MINUTE);
 
             TimePickerDialog timePickerDialog = new TimePickerDialog(this, (view, hourOfDay, minute) -> {
-                alarm.setHours(hourOfDay);
-                alarm.setMinutes(minute);
+//                alarm.setHours(hourOfDay);
+//                alarm.setMinutes(minute);
 
                 alarmTime.setText(hourOfDay + " : " + minute);
             }, mHour, mMinute, true);

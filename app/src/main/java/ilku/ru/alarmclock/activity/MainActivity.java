@@ -4,10 +4,9 @@ import android.app.AlarmManager;
 import android.app.PendingIntent;
 import android.content.Context;
 import android.content.Intent;
-import android.content.SharedPreferences;
+import android.database.sqlite.SQLiteDatabase;
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
-import android.widget.Toast;
 
 import java.util.Calendar;
 import java.util.Map;
@@ -15,10 +14,14 @@ import java.util.Map;
 import ilku.ru.alarmclock.R;
 import ilku.ru.alarmclock.service.AlarmService;
 
-public class AllClockActivity extends AppCompatActivity {
+public class MainActivity extends AppCompatActivity {
 
     private AlarmManager alarmMgr;
     private PendingIntent pendingIntent;
+
+    private String dbname;
+    private SQLiteDatabase.CursorFactory cursorFactory;
+    private int dbVersion;
 
     public static final String APP_PREFERENCES = "dirtyClockySettings";
 
@@ -34,7 +37,7 @@ public class AllClockActivity extends AppCompatActivity {
         startRepeatingTimer();
 
         findViewById(R.id.buttonPlus).setOnClickListener((buttonPlus) -> {
-            Intent createNewClock = new Intent(AllClockActivity.this, NewClockActivity.class);
+            Intent createNewClock = new Intent(MainActivity.this, NewClockActivity.class);
             startActivity(createNewClock);
         });
         findViewById(R.id.buttonload).setOnClickListener((buttonload) -> {
@@ -43,8 +46,6 @@ public class AllClockActivity extends AppCompatActivity {
             //Toast.makeText(this, savedAlarm, Toast.LENGTH_SHORT);
             //System.out.println(savedAlarm);
         });
-
-
     }
 
     @Override
